@@ -1,0 +1,13 @@
+micuData |> 
+  group_by(day) |> 
+  summarize(procedures = sum(micu)) |>
+  ggplot(aes(day, procedures)) +
+  geom_line(color = "lightgray") +
+  geom_area(alpha = 0.5) +
+  geom_hline(yintercept = micuDayMean, color = "red", alpha = 0.5, lty = "dashed") +
+  geom_point(aes(color = procedures > 0), alpha = 0.75) +
+  theme_bw() +
+  labs(x = NULL, y = "Number of Daily Procedures") +
+  scale_color_manual(values = c("red", "black")) +
+  theme(legend.position = "none") +
+  scale_x_date(date_breaks = "months", date_labels = format("%b %Y"))
