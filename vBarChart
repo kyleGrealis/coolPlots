@@ -1,0 +1,19 @@
+micuData |> 
+  group_by(monthYr) |> 
+  summarize(monthSum = sum(micu)) |> 
+  ggplot(aes(monthYr, monthSum)) +
+  geom_bar(stat = "identity", color = "black", fill = "lightblue") +
+  geom_line(color = "lightgray") +
+  geom_hline(yintercept = micuMonthMean, color = "red", alpha = 0.5, lty = "dashed") +
+  geom_point(alpha = 0.75) +
+  theme_bw() +
+  labs(
+    x = NULL,
+    y = "Total Monthly Procedures"
+  ) +
+  geom_text(
+    aes(label = monthSum),
+    color = "black",
+    vjust = 1.5
+  ) +
+  scale_x_date(date_breaks = "months", date_labels = format("%b %Y"))
