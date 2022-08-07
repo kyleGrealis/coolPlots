@@ -1,0 +1,18 @@
+dataset |>
+  group_by(what, did_use) |> 
+  summarize(n = n()) |> 
+  group_by(what) |>
+  mutate(percent = n / sum(n)) |> 
+  ggplot(aes(what, percent, fill = did_use)) + 
+  geom_col(color = "black", position = "fill") +
+  theme_few() +
+  labs(
+    title = "Proportional bar chart of self-reported drug usage",
+    x = "Self-reported Drug Used",
+    y = ""
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = c("lightgray", "lightblue"),
+                    name = "Did Use?") +
+  geom_text(aes(label = paste0(round(percent*100, 2),"%")), 
+            position = position_stack(vjust = 0.5), size = 2)
