@@ -1,3 +1,5 @@
+# using 2 discrete variables:
+
 dataset |>
   group_by(what, did_use) |> 
   summarize(n = n()) |> 
