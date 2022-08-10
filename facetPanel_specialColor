@@ -1,48 +1,27 @@
----
-title: "Surround Facet with Color for Attention"
-format: html
-editor: source
----
+library(tidyverse)
+library(palmerpenguins)
 
-
-This will surround a facet panel with a red rectangle
-```{r}
-geco_plotting |> 
-  ggplot(aes(mrc_num)) +
-  geom_bar() +
+penguins |> 
+  drop_na(sex) |> 
+  ggplot(aes(sex)) + 
+  geom_bar(
+    color = "black",                         # black outline of each bar segment
+    alpha = 0.75                             # increase color transparency
+  ) +
+  
+  # bring attention to Chinstrap species with a purple rectangle
   geom_rect(
     data = subset(
-      geco_plotting, site %in% c("Peru")),
-      fill = NA, color = "red", size = 4,
+      penguins, species %in% c("Chinstrap")
+      ),
+      fill = NA,                             # leave inner portion empty
+      color = "purple",
+      size = 4,                              # set the thickness of the box
       xmin = -Inf, xmax = Inf,
       ymin = -Inf, ymax = Inf
-  ) +
-  facet_wrap(~ site) +
-  theme_bw() +
-  labs(
-    x = "", y = "", fill = "MRC Dyspnea Scale",
-    title = "Count of MRC Dyspnea Class by Site"
-  )
-```
-
-If needed to to be completed in a `facet_grid()`...
-```{r}
-geco_plotting |> 
-  ggplot(aes(mrc_num)) +
-  geom_bar() +
-  geom_rect(
-    data = subset(
-      geco_plotting, 
-      site %in% c("Peru")) &
-      foo %in% c("a", "b"),
-      fill = NA, color = "red", size = 4,
-      xmin = -Inf, xmax = Inf,
-      ymin = -Inf, ymax = Inf
-  ) +
-  facet_wrap(foo ~ site) +
-  theme_bw() +
-  labs(
-    x = "", y = "", fill = "MRC Dyspnea Scale",
-    title = "Count of MRC Dyspnea Class by Site"
-  )
-```
+    ) +
+  facet_wrap(~ species) +
+  
+  # adding extra details
+  labs(x = NULL, y = "Total") +
+  theme_bw()
