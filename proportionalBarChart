@@ -1,7 +1,10 @@
 # using 2 discrete variables:
 
+library(tidyverse)
+library(palmerpenguins)
+
 penguins |> 
-  na.omit(sex) |> 
+  drop_na(sex) |> 
   
   # calculate a proportion of sex by island
   group_by(sex, island) |> 
